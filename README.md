@@ -1,9 +1,9 @@
-# Mievoh - Hệ Thống Đặt Vé Xem Phim (Cinema Booking System)
+# Mievoh - Hệ Thống Đặt Vé Xem Phim (Mievoh)
 
 <p align="center">
-  <img src="FE/public/images/mievoh_logo.png" alt="Mievoh Logo" height="60" style="vertical-align: middle;" />
+  <img src="FE/public/images/mievoh_logo.png" alt="Mievoh Logo" height="80" style="vertical-align: middle; border-radius: 50%;" />
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="FE/public/images/mievoh_text.png" alt="Mievoh Text" height="50" style="vertical-align: middle;" />
+  <img src="FE/public/images/mievoh_text.png" alt="Mievoh Text" height="80" style="vertical-align: middle;" />
 </p>
 
 Dự án này là hệ thống Mievoh - Đặt Vé Xem Phim bao gồm hai phần chính:
