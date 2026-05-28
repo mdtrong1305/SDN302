@@ -3,7 +3,7 @@
 <p align="center">
   <img src="FE/public/mievoh_logo_rounded.svg" alt="Mievoh Logo" height="80" style="vertical-align: middle;" />
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="FE/public/images/mievoh_text.png" alt="Mievoh Text" height="120" style="vertical-align: middle;" />
+  <img src="FE/public/mievoh_text_cropped.png" alt="Mievoh Text" height="55" style="vertical-align: middle;" />
 </p>
 
 Dự án này là hệ thống Mievoh - Đặt Vé Xem Phim bao gồm hai phần chính:
