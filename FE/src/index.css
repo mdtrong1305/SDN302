@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Roboto", sans-serif;
+  --color-dark-obsidian: #08060c;
+  --color-dark-card: rgba(20, 16, 32, 0.6);
+  --color-gold: #eab308;
+  --color-gold-hover: #facc15;
+  --color-sky-blue: #0ea5e9;
+  --color-neon-rose: #ec4899;
+  --color-neon-purple: #a855f7;
+  --color-neon-purple-hover: #c084fc;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Slick Slider Styling */
+.slider-container .slick-list {
+  padding: 16px 0 !important; /* Prevents card shadow/hover scaling from being clipped */
+}
+
+/* Promotions Slider Center Mode Styling */
+.promotions-slider .slick-list {
+  padding: 24px 0 !important;
+}
+
+.promotions-slider .slick-slide {
+  transform: scale(0.85);
+  opacity: 0.65;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.promotions-slider .slick-slide.slick-center {
+  transform: scale(1.05);
+  opacity: 1;
+}/* Toast Slide Animations */
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toastSlideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+.toast-enter {
+  animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast-exit {
+  animation: toastSlideOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
