@@ -69,8 +69,6 @@ export default function Header({
     const navigate = useNavigate();
     const { theme, toggleTheme } = useTheme();
     const { language, setLanguage, t } = useLanguage();
-    const navigate = useNavigate();
-
     const isAdminOrStaff = ['admin', 'staff'].includes((user?.role || '').toLowerCase()) ||
         ['admin', 'staff'].includes((user?.realRole || '').toLowerCase());
 
@@ -881,7 +879,6 @@ export default function Header({
                         })}
 
                         <div className="mt-2 border-t border-gray-100 dark:border-zinc-800 pt-3">
-<<<<<<< HEAD
                              {isAuthenticated ? (
                                   <>
                                       <div className="flex items-center gap-3 px-2 py-2 border-b border-violet-50 dark:border-zinc-800 mb-2">
@@ -976,6 +973,17 @@ export default function Header({
                                           <Lock className="h-4 w-4 text-violet-500" />
                                           <span>{t("change_password")}</span>
                                       </Link>
+                                      {isAdminOrStaff && (
+                                          <div className="border-t border-violet-50 dark:border-zinc-800 mt-2 pt-2">
+                                              <button
+                                                  onClick={() => { setIsOpen(false); handleSwitchToAdmin(); }}
+                                                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-bold text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-zinc-800 hover:text-violet-850 dark:hover:text-violet-200 transition-colors cursor-pointer"
+                                              >
+                                                  <LayoutDashboard className="h-4 w-4 text-violet-500" />
+                                                  <span>Trang quản trị</span>
+                                              </button>
+                                          </div>
+                                      )}
                                       <div className="border-t border-violet-50 dark:border-zinc-800 mt-2 pt-2">
                                           <button
                                               onClick={() => { setIsOpen(false); dispatch(logout()); }}
@@ -1006,86 +1014,6 @@ export default function Header({
                                      </Button>
                                  </div>
                              )}
-=======
-                            {isAuthenticated ? (
-                                <>
-                                    <div className="flex items-center gap-3 px-2 py-2 border-b border-violet-50 dark:border-zinc-800 mb-2">
-                                        <img
-                                            src={user?.avatar || "/images/avatar.jpg"}
-                                            alt={user?.name || "avatar"}
-                                            className="h-10 w-10 rounded-full object-cover border-2 border-violet-200 dark:border-zinc-700"
-                                        />
-                                        <div className="flex flex-col min-w-0">
-                                            <div className="text-sm font-bold text-gray-800 dark:text-zinc-200 truncate">{user?.name}</div>
-                                            <div className="text-xs text-gray-400 dark:text-zinc-400 truncate">{user?.email}</div>
-                                        </div>
-                                    </div>
-                                    <Link
-                                        to="/profile?tab=info"
-                                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold text-gray-700 dark:text-zinc-300 hover:bg-violet-50 dark:hover:bg-zinc-800 hover:text-violet-700 dark:hover:text-violet-400 transition-colors"
-                                        onClick={() => setIsOpen(false)}
-                                    >
-                                        <User className="h-4 w-4 text-violet-500" />
-                                        <span>{t("profile")}</span>
-                                    </Link>
-                                    <Link
-                                        to="/profile?tab=tickets"
-                                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold text-gray-700 dark:text-zinc-300 hover:bg-violet-50 dark:hover:bg-zinc-800 hover:text-violet-700 dark:hover:text-violet-400 transition-colors"
-                                        onClick={() => setIsOpen(false)}
-                                    >
-                                        <Ticket className="h-4 w-4 text-violet-500" />
-                                        <span>{t("booked_tickets")}</span>
-                                    </Link>
-                                    <Link
-                                        to="/profile?tab=password"
-                                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold text-gray-700 dark:text-zinc-300 hover:bg-violet-50 dark:hover:bg-zinc-800 hover:text-violet-700 dark:hover:text-violet-400 transition-colors"
-                                        onClick={() => setIsOpen(false)}
-                                    >
-                                        <Lock className="h-4 w-4 text-violet-500" />
-                                        <span>{t("change_password")}</span>
-                                    </Link>
-                                    {isAdminOrStaff && (
-                                        <div className="border-t border-violet-50 dark:border-zinc-800 mt-2 pt-2">
-                                            <button
-                                                onClick={() => { setIsOpen(false); handleSwitchToAdmin(); }}
-                                                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-bold text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-zinc-800 hover:text-violet-850 dark:hover:text-violet-200 transition-colors cursor-pointer"
-                                            >
-                                                <LayoutDashboard className="h-4 w-4 text-violet-500" />
-                                                <span>Trang quản trị</span>
-                                            </button>
-                                        </div>
-                                    )}
-                                    <div className="border-t border-violet-50 dark:border-zinc-800 mt-2 pt-2">
-                                        <button
-                                            onClick={() => { setIsOpen(false); dispatch(logout()); }}
-                                            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-bold text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-zinc-800 hover:text-violet-850 dark:hover:text-violet-200 transition-colors cursor-pointer"
-                                        >
-                                            <LogOut className="h-4 w-4 text-violet-500" />
-                                            <span>{t("logout")}</span>
-                                        </button>
-                                    </div>
-                                </>
-                            ) : (
-                                <div className="flex flex-col gap-2">
-                                    <Button
-                                        variant="outline-purple"
-                                        href={`/login${redirectQuery}`}
-                                        className="w-full text-center py-2 text-sm"
-                                        onClick={() => setIsOpen(false)}
-                                    >
-                                        {t("login")}
-                                    </Button>
-                                    <Button
-                                        variant="primary"
-                                        href={`/register${redirectQuery}`}
-                                        className="w-full text-center py-2 text-sm"
-                                        onClick={() => setIsOpen(false)}
-                                    >
-                                        {t("register")}
-                                    </Button>
-                                </div>
-                            )}
->>>>>>> feat-update-ui/ux-admin-staff
                         </div>
                     </nav>
                 </div>

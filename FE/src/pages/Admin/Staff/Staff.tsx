@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { UserRound, Plus, Pencil, Trash2, MapPin, Search, Mail, Phone } from 'lucide-react';
+import { UserRound, Plus, Pencil, Trash2, MapPin, Search, Phone } from 'lucide-react';
 import Modal from '../components/Modal';
 import ConfirmDialog from '../components/ConfirmDialog';
 import {
@@ -14,21 +14,19 @@ import {
 } from '../../../axios/admin';
 
 interface StaffForm {
-    username: string;
-    fullName: string;
     email: string;
+    fullName: string;
     phoneNumber: string;
     password: string;
-    managedComplexId: string;
+    cinemaComplexId: string;
 }
 
 const emptyForm: StaffForm = {
-    username: '',
-    fullName: '',
     email: '',
+    fullName: '',
     phoneNumber: '',
     password: '',
-    managedComplexId: '',
+    cinemaComplexId: '',
 };
 
 export default function Staff() {
@@ -74,27 +72,26 @@ export default function Staff() {
 
     const openCreate = () => {
         setEditing(null);
-        setForm({ ...emptyForm, managedComplexId: complexes[0]?.cinemaComplexId || '' });
+        setForm({ ...emptyForm, cinemaComplexId: complexes[0]?.cinemaComplexId || '' });
         setModalOpen(true);
     };
 
     const openEdit = (item: StaffType) => {
         setEditing(item);
         setForm({
-            username: item.username || '',
-            fullName: item.fullName || '',
             email: item.email || '',
+            fullName: item.fullName || '',
             phoneNumber: item.phoneNumber || '',
             password: '',
-            managedComplexId: item.managedComplexId || '',
+            cinemaComplexId: item.cinemaComplexId || '',
         });
         setModalOpen(true);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!editing && !form.username.trim()) {
-            toast.error('Vui lòng nhập tên đăng nhập');
+        if (!editing && !form.email.trim()) {
+            toast.error('Vui lòng nhập email đăng nhập');
             return;
         }
         if (!form.fullName.trim()) {
@@ -109,29 +106,27 @@ export default function Staff() {
             toast.error('Mật khẩu phải có ít nhất 6 ký tự');
             return;
         }
-        if (!form.managedComplexId) {
+        if (!form.cinemaComplexId) {
             toast.error('Vui lòng chọn cụm rạp phụ trách');
             return;
         }
         setSaving(true);
         try {
             if (editing) {
-                await updateStaffApi(editing.username, {
+                await updateStaffApi(editing.email, {
                     fullName: form.fullName.trim(),
-                    email: form.email.trim() || undefined,
                     phoneNumber: form.phoneNumber.trim() || undefined,
                     password: form.password ? form.password : undefined,
-                    managedComplexId: form.managedComplexId,
+                    cinemaComplexId: form.cinemaComplexId,
                 });
                 toast.success('Cập nhật nhân viên thành công');
             } else {
                 await createStaffApi({
-                    username: form.username.trim(),
+                    email: form.email.trim(),
                     fullName: form.fullName.trim(),
-                    email: form.email.trim() || undefined,
                     phoneNumber: form.phoneNumber.trim() || undefined,
                     password: form.password,
-                    managedComplexId: form.managedComplexId,
+                    cinemaComplexId: form.cinemaComplexId,
                 });
                 toast.success('Thêm nhân viên thành công');
             }
@@ -148,7 +143,7 @@ export default function Staff() {
         if (!deleteTarget) return;
         setDeleting(true);
         try {
-            await deleteStaffApi(deleteTarget.username);
+            await deleteStaffApi(deleteTarget.email);
             toast.success('Đã xóa nhân viên');
             setConfirmOpen(false);
             setDeleteTarget(null);
@@ -166,9 +161,8 @@ export default function Staff() {
     const filtered = staffList.filter(
         (s) =>
             !search.trim() ||
-            (s.username || '').toLowerCase().includes(search.toLowerCase()) ||
-            (s.fullName || '').toLowerCase().includes(search.toLowerCase()) ||
-            (s.email || '').toLowerCase().includes(search.toLowerCase())
+            (s.email || '').toLowerCase().includes(search.toLowerCase()) ||
+            (s.fullName || '').toLowerCase().includes(search.toLowerCase())
     );
 
     return (
@@ -196,7 +190,7 @@ export default function Staff() {
                         type="text"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Tìm theo tên đăng nhập, họ tên hoặc email..."
+                        placeholder="Tìm theo email hoặc họ tên..."
                         className="w-full pl-9 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                     />
                 </div>
@@ -216,39 +210,33 @@ export default function Staff() {
                         <table className="w-full text-sm">
                             <thead>
                                 <tr className="text-left text-gray-500 border-b border-gray-100 bg-gray-50/50">
-                                    <th className="px-6 py-3 font-medium">Tên đăng nhập</th>
+                                    <th className="px-6 py-3 font-medium">Email đăng nhập</th>
                                     <th className="px-6 py-3 font-medium">Họ tên</th>
-                                    <th className="px-6 py-3 font-medium">Liên hệ</th>
+                                    <th className="px-6 py-3 font-medium">Số điện thoại</th>
                                     <th className="px-6 py-3 font-medium">Cụm rạp phụ trách</th>
                                     <th className="px-6 py-3 font-medium text-right">Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-50">
                                 {filtered.map((item) => (
-                                    <tr key={item.username} className="hover:bg-gray-50/50 transition-colors">
-                                        <td className="px-6 py-3 font-medium text-gray-900">{item.username}</td>
+                                    <tr key={item.email} className="hover:bg-gray-50/50 transition-colors">
+                                        <td className="px-6 py-3 font-medium text-gray-900">{item.email}</td>
                                         <td className="px-6 py-3 text-gray-700">{item.fullName || '—'}</td>
                                         <td className="px-6 py-3 text-gray-600">
                                             <div className="flex flex-col gap-0.5">
-                                                {item.email && (
-                                                    <span className="inline-flex items-center gap-1.5">
-                                                        <Mail className="w-3.5 h-3.5 text-gray-400" />
-                                                        {item.email}
-                                                    </span>
-                                                )}
                                                 {item.phoneNumber && (
                                                     <span className="inline-flex items-center gap-1.5">
                                                         <Phone className="w-3.5 h-3.5 text-gray-400" />
                                                         {item.phoneNumber}
                                                     </span>
                                                 )}
-                                                {!item.email && !item.phoneNumber && '—'}
+                                                {!item.phoneNumber && '—'}
                                             </div>
                                         </td>
                                         <td className="px-6 py-3">
                                             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-violet-50 text-violet-700 text-xs font-medium">
                                                 <MapPin className="w-3 h-3" />
-                                                {complexName(item.managedComplexId)}
+                                                {complexName(item.cinemaComplexId)}
                                             </span>
                                         </td>
                                         <td className="px-6 py-3">
@@ -289,18 +277,18 @@ export default function Staff() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                            Tên đăng nhập <span className="text-red-500">*</span>
+                            Email đăng nhập <span className="text-red-500">*</span>
                         </label>
                         <input
-                            type="text"
-                            value={form.username}
-                            onChange={(e) => setForm({ ...form, username: e.target.value })}
+                            type="email"
+                            value={form.email}
+                            onChange={(e) => setForm({ ...form, email: e.target.value })}
                             disabled={!!editing}
-                            placeholder="VD: staff01"
+                            placeholder="VD: staff01@cinema.com"
                             className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent disabled:bg-gray-100 disabled:text-gray-500"
                         />
                         {editing && (
-                            <p className="text-xs text-gray-400 mt-1">Không thể thay đổi tên đăng nhập.</p>
+                            <p className="text-xs text-gray-400 mt-1">Không thể thay đổi email đăng nhập.</p>
                         )}
                     </div>
                     <div>
@@ -315,27 +303,15 @@ export default function Staff() {
                             className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                         />
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
-                            <input
-                                type="email"
-                                value={form.email}
-                                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                                placeholder="VD: staff01@cinema.com"
-                                className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1.5">Số điện thoại</label>
-                            <input
-                                type="text"
-                                value={form.phoneNumber}
-                                onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
-                                placeholder="VD: 0901234567"
-                                className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-                            />
-                        </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">Số điện thoại</label>
+                        <input
+                            type="text"
+                            value={form.phoneNumber}
+                            onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
+                            placeholder="VD: 0901234567"
+                            className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                        />
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -354,8 +330,8 @@ export default function Staff() {
                             Cụm rạp phụ trách <span className="text-red-500">*</span>
                         </label>
                         <select
-                            value={form.managedComplexId}
-                            onChange={(e) => setForm({ ...form, managedComplexId: e.target.value })}
+                            value={form.cinemaComplexId}
+                            onChange={(e) => setForm({ ...form, cinemaComplexId: e.target.value })}
                             className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-white"
                         >
                             <option value="">-- Chọn cụm rạp --</option>
@@ -390,7 +366,7 @@ export default function Staff() {
                 onClose={() => setConfirmOpen(false)}
                 onConfirm={handleDelete}
                 title="Xóa nhân viên"
-                message={`Bạn có chắc muốn xóa nhân viên "${deleteTarget?.fullName || deleteTarget?.username}"? Hành động này không thể hoàn tác.`}
+                message={`Bạn có chắc muốn xóa nhân viên "${deleteTarget?.fullName || deleteTarget?.email}"? Hành động này không thể hoàn tác.`}
                 confirmText="Xóa"
                 loading={deleting}
             />

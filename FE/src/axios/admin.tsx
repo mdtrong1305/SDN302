@@ -387,32 +387,29 @@ export const deleteBannerApi = async (bannerId: string): Promise<BaseResponse<an
 // ==========================================
 
 export interface Staff {
-    username: string;
+    email: string;
     fullName: string | null;
-    email: string | null;
     phoneNumber: string | null;
     userType: string | null;
-    managedComplexId: string | null;
+    cinemaComplexId: string | null;
     authProvider?: string | null;
     createdAt?: string;
-    ManagedComplex?: CinemaComplex | null;
+    CinemaComplex?: CinemaComplex | null;
 }
 
 export interface CreateStaffPayload {
-    username: string;
+    email: string;
     fullName: string;
-    email?: string;
     phoneNumber?: string;
     password: string;
-    managedComplexId: string;
+    cinemaComplexId: string;
 }
 
 export interface UpdateStaffPayload {
     fullName?: string;
-    email?: string;
     phoneNumber?: string;
     password?: string;
-    managedComplexId?: string;
+    cinemaComplexId?: string;
 }
 
 /** GET /api/staff - Lấy danh sách nhân viên (admin) */
@@ -427,14 +424,14 @@ export const createStaffApi = async (data: CreateStaffPayload): Promise<BaseResp
     return response.data;
 };
 
-/** PATCH /api/staff/:username - Cập nhật nhân viên (admin) */
-export const updateStaffApi = async (username: string, data: UpdateStaffPayload): Promise<BaseResponse<Staff>> => {
-    const response = await api.patch<BaseResponse<Staff>>(`/staff/${username}`, data);
+/** PATCH /api/staff/:email - Cập nhật nhân viên (admin) */
+export const updateStaffApi = async (email: string, data: UpdateStaffPayload): Promise<BaseResponse<Staff>> => {
+    const response = await api.patch<BaseResponse<Staff>>(`/staff/${email}`, data);
     return response.data;
 };
 
-/** DELETE /api/staff/:username - Xóa nhân viên (admin) */
-export const deleteStaffApi = async (username: string): Promise<BaseResponse<any>> => {
-    const response = await api.delete<BaseResponse<any>>(`/staff/${username}`);
+/** DELETE /api/staff/:email - Xóa nhân viên (admin) */
+export const deleteStaffApi = async (email: string): Promise<BaseResponse<any>> => {
+    const response = await api.delete<BaseResponse<any>>(`/staff/${email}`);
     return response.data;
 };

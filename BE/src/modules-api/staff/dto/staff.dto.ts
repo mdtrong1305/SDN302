@@ -2,20 +2,15 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class CreateStaffDto {
-    @ApiProperty({ example: 'staff01', description: 'Tên đăng nhập (username)' })
-    @IsNotEmpty({ message: 'Username không được để trống' })
+    @ApiProperty({ example: 'staff01@cinema.com', description: 'Email (dùng để đăng nhập)' })
+    @IsNotEmpty({ message: 'Email không được để trống' })
     @IsString()
-    username!: string;
+    email!: string;
 
     @ApiProperty({ example: 'Nguyễn Văn A', description: 'Họ tên nhân viên' })
     @IsNotEmpty({ message: 'Họ tên không được để trống' })
     @IsString()
     fullName!: string;
-
-    @ApiPropertyOptional({ example: 'staff01@cinema.com', description: 'Email' })
-    @IsOptional()
-    @IsString()
-    email?: string;
 
     @ApiPropertyOptional({ example: '0901234567', description: 'Số điện thoại' })
     @IsOptional()
@@ -34,7 +29,7 @@ export class CreateStaffDto {
     })
     @IsNotEmpty({ message: 'Mã cụm rạp không được để trống' })
     @IsString()
-    managedComplexId!: string;
+    cinemaComplexId!: string;
 }
 
 export class UpdateStaffDto {
@@ -42,11 +37,6 @@ export class UpdateStaffDto {
     @IsOptional()
     @IsString()
     fullName?: string;
-
-    @ApiPropertyOptional({ example: 'staff01@cinema.com', description: 'Email mới' })
-    @IsOptional()
-    @IsString()
-    email?: string;
 
     @ApiPropertyOptional({ example: '0901234567', description: 'Số điện thoại mới' })
     @IsOptional()
@@ -65,5 +55,5 @@ export class UpdateStaffDto {
     })
     @IsOptional()
     @IsString()
-    managedComplexId?: string;
+    cinemaComplexId?: string;
 }

@@ -48,24 +48,24 @@ export class StaffController {
         return this.staffService.findAll();
     }
 
-    @Patch('/:username')
+    @Patch('/:email')
     @ApiOperation({ summary: 'Cập nhật nhân viên (ADMIN)' })
     @ApiResponse({ status: 200, description: 'Cập nhật nhân viên thành công' })
     @ApiResponse({ status: 400, description: 'Dữ liệu không hợp lệ' })
     @ApiResponse({ status: 401, description: 'Chưa đăng nhập' })
     @ApiResponse({ status: 403, description: 'Không có quyền' })
     @ApiResponse({ status: 404, description: 'Không tìm thấy nhân viên' })
-    update(@Param('username') username: string, @Body() body: UpdateStaffDto) {
-        return this.staffService.update(username, body);
+    update(@Param('email') email: string, @Body() body: UpdateStaffDto) {
+        return this.staffService.update(email, body);
     }
 
-    @Delete('/:username')
+    @Delete('/:email')
     @ApiOperation({ summary: 'Xóa nhân viên (ADMIN)' })
     @ApiResponse({ status: 200, description: 'Xóa nhân viên thành công' })
     @ApiResponse({ status: 401, description: 'Chưa đăng nhập' })
     @ApiResponse({ status: 403, description: 'Không có quyền' })
     @ApiResponse({ status: 404, description: 'Không tìm thấy nhân viên' })
-    delete(@Param('username') username: string) {
-        return this.staffService.delete(username);
+    delete(@Param('email') email: string) {
+        return this.staffService.delete(email);
     }
 }
