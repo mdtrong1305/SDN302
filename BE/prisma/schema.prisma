@@ -25,6 +25,7 @@ model User {
 
   userType String? @default("user") // "user", "staff", "admin"
 
+  // Cụm rạp mà staff được phân công quản lý (chỉ áp dụng cho userType = "staff")
   cinemaComplexId String?        @db.ObjectId // Dành riêng cho staff để giới hạn khu vực
   CinemaComplex   CinemaComplex? @relation(fields: [cinemaComplexId], references: [cinemaComplexId])
 

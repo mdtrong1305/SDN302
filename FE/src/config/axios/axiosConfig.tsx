@@ -72,8 +72,9 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      const isLoginRequest = error.config?.url?.includes('/auth/login');
-      if (!isLoginRequest) {
+      // Don't redirect if the error is from the login or register API itself
+      const originalRequestUrl = error.config?.url || '';
+      if (!originalRequestUrl.includes('/auth/login') && !originalRequestUrl.includes('/auth/register')) {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('auth_user');
         localStorage.removeItem('auth_isAuthenticated');
