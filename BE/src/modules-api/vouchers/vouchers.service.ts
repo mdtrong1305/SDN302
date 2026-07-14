@@ -27,7 +27,7 @@ export class VouchersService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly notificationsService: NotificationsService,
-  ) {}
+  ) { }
 
   async createVoucher(dto: CreateVoucherDto, user: PrismaUser) {
     // 1. Kiểm tra quyền của Staff
