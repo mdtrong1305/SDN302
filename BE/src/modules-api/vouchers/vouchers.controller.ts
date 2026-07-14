@@ -30,7 +30,7 @@ import { Public } from '../../common/decorators/public.decorator';
 @ApiTags('Vouchers')
 @Controller('vouchers')
 export class VouchersController {
-  constructor(private readonly vouchersService: VouchersService) {}
+  constructor(private readonly vouchersService: VouchersService) { }
 
   @Get('public')
   @Public()
